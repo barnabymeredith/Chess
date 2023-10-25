@@ -1,44 +1,16 @@
-﻿namespace Model.Pieces
+﻿using Model.Enums;
+
+namespace Model.Pieces
 {
     public class Position
     {
-        private const string PermittedColumns = "abcdefgh";
-        private const string PermittedRows = "12345678";
-        private char _column;
-        private char _row;
+        private Column _column;
+        private Row _row;
 
-        public char Column 
-        { 
-            get => _column;
-            set 
-            {
-                if (PermittedColumns.Contains(value))
-                {
-                    _column = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException(null, $"Column should be present in this set: {PermittedColumns}");
-                }
-            }
-        }
-        public char Row 
-        { 
-            get => _row;
-            set
-            {
-                if (PermittedRows.Contains(value))
-                {
-                    _row = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException(null, $"Row should be present in this set: {PermittedRows}");
-                }
-            }
-        }
+        public Column Column { get => _column; set => _column = value; }
+        public Row Row { get => _row; set => _row = value; }
 
-        public Position(char column, char row)
+        public Position(Column column, Row row)
         {
             Column = column;
             Row = row;

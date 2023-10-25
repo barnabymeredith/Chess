@@ -2,9 +2,9 @@
 
 namespace Model.Pieces
 {
-    public class Pawn : Piece
+    public class Queen : Piece
     {
-        public Pawn(Colour colour, Position position) : base(colour, position) 
+        public Queen(Colour colour, Position position) : base(colour, position)
         {
         }
 
