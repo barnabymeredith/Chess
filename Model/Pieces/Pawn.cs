@@ -4,7 +4,7 @@ namespace Model.Pieces
 {
     public class Pawn : Piece
     {
-        public Pawn(Colour colour, Position position) : base(colour, position) 
+        public Pawn(Colour colour, Column column, Row row) : base(colour, column, row) 
         {
         }
 

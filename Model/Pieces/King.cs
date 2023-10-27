@@ -4,7 +4,7 @@ namespace Model.Pieces
 {
     public class King : Piece
     {
-        public King(Colour colour, Position position) : base(colour, position)
+        public King(Colour colour, Column column, Row row) : base(colour, column, row)
         {
         }
 

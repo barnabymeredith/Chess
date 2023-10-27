@@ -4,7 +4,7 @@ namespace Model.Pieces
 {
     public class Bishop : Piece
     {
-        public Bishop(Colour colour, Position position) : base(colour, position)
+        public Bishop(Colour colour, Column column, Row row) : base(colour, column, row)
         {
         }
 
