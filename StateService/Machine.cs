@@ -12,12 +12,14 @@ namespace StateService
 
         private static List<Piece> currentGame = null;
 
+        public static List<Piece> CurrentGame { get => currentGame; set => currentGame = value; }
+
         public static List<Piece> StartMatch(string variant)
         {
             if (variant.ToLower() == Variant.Classic.ToString().ToLower()) 
             {
-                currentGame = StartClassicMatch();
-                return currentGame;
+                CurrentGame = StartClassicMatch();
+                return CurrentGame;
             }
             else
             {
@@ -29,16 +31,16 @@ namespace StateService
         {
             // if the move is a3 and there is a PAWN at a2 and no piece at a3
             
-            if (moveChessNotation == "a3" && !currentGame.Any(p => p.GetPositionAlgebraicNotation() == "a3"))
+            if (moveChessNotation == "a3" && !CurrentGame.Any(p => p.GetPositionAlgebraicNotation() == "a3"))
             {
-                if (currentGame.Any(p => p.GetType().Name == "Pawn" && p.GetPositionAlgebraicNotation() == "a2"))
+                if (CurrentGame.Any(p => p.GetType().Name == "Pawn" && p.GetPositionAlgebraicNotation() == "a2"))
                 {
-                    currentGame.Where(p => p.GetPositionAlgebraicNotation() == "a2").FirstOrDefault().Row = Row.Three;
-                    return currentGame;
+                    CurrentGame.Where(p => p.GetPositionAlgebraicNotation() == "a2").FirstOrDefault().Row = Row.Three;
+                    return CurrentGame;
                 }
-                return currentGame;
+                return CurrentGame;
             }
-            else return currentGame;
+            else return CurrentGame;
         }
 
         private static List<Piece> StartClassicMatch() 
