@@ -21,7 +21,7 @@ namespace StateService
 
             if (PieceTypeToMove == null)
             {
-                SetPieceToMove();
+                SetPieceTypeToMove();
             }
             return true;
         }
@@ -68,7 +68,7 @@ namespace StateService
             return Enum.IsDefined(typeof(Row), rowAsInt);
         }
 
-        public static void SetPieceToMove()
+        public static void SetPieceTypeToMove()
         {
             switch (Move[0]) 
             {
