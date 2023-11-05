@@ -8,6 +8,7 @@ namespace StateService
         public static PieceType? PieceTypeToMove;
         public static string Move;
         public static List<Piece> Pieces;
+        public static Piece PieceToMove;
 
         public static bool IsMoveValid(string move, List<Piece> currentGame)
         {
@@ -23,6 +24,19 @@ namespace StateService
             {
                 SetPieceTypeToMove();
             }
+
+            foreach (Piece piece in Pieces.Where(p => p.GetType().Name == PieceTypeToMove.ToString()))
+            {
+                if (PieceToMove == null && piece.CanMove(Move))
+                {
+                    PieceToMove = piece;
+                }
+                else if (PieceToMove != null && piece.CanMove(Move))
+                {
+                    throw new ArgumentException();
+                }
+            }
+
             return true;
         }
 

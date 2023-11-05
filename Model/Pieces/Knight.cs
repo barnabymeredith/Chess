@@ -17,5 +17,9 @@ namespace Model.Pieces
         {
 
         }
+        public override bool CanMove(string move)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

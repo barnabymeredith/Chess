@@ -28,6 +28,8 @@ namespace Model.Pieces
 
         public abstract void Capture();
 
+        public abstract bool CanMove(string move);
+
         public string GetPositionAlgebraicNotation()
         {
             return Column.ToString() + ((int)Row).ToString();

@@ -4,15 +4,24 @@ using StateService;
 
 Console.WriteLine("Enter mode.");
 
-var pieces = Machine.StartMatch(Console.ReadLine());
+var pieces = Machine.StartMatch(Console.ReadLine() ?? "hello");
 
 PrintPieces(pieces);
 
 Console.WriteLine("Make a move");
 
-pieces = Machine.Move(Console.ReadLine());
+pieces = Machine.Move(Console.ReadLine() ?? "hello");
 
-Console.Clear();
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
+Console.WriteLine("gfdgfdfgfdgfg");
 
 PrintPieces(pieces);
 
