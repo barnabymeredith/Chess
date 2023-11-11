@@ -46,5 +46,16 @@ namespace Model.Pieces
             }
             return false;
         }
+
+        public override bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces)
+        {
+            // make Position.cs so we can return in positions to traverse, also add to piece classes
+            return true;
+        }
+
+        public override bool SquaresToTraverse(string move)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

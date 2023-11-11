@@ -6,11 +6,7 @@ namespace Model.Pieces
     {
         private Colour _colour;
         private bool _isAlive;
-        private Column _column;
-        private Row _row;
-
-        public Column Column { get => _column; set => _column = value; }
-        public Row Row { get => _row; set => _row = value; }
+        private Position _position;
 
         public Colour Colour { get => _colour; set => _colour = value; }
 
@@ -29,6 +25,10 @@ namespace Model.Pieces
         public abstract void Capture();
 
         public abstract bool CanMove(string move);
+
+        public abstract bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces);
+
+        public abstract bool SquaresToTraverse(string move);
 
         public string GetPositionAlgebraicNotation()
         {

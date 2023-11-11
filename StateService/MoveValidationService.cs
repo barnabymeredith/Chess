@@ -37,7 +37,7 @@ namespace StateService
                 }
             }
 
-            return true;
+            return false;
         }
 
         public static bool IsMoveSyntaxValid()

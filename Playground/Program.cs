@@ -1,6 +1,22 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Model.Enums;
+﻿var input = "Qxe1";
 
-var myChar = '4';
-var myIntFromChar = (int)char.GetNumericValue(myChar);
-Console.WriteLine(Enum.IsDefined(typeof(Row), myIntFromChar));
+if (input[input.Length - 3] == 'x')
+{
+    // inputType = capture
+    input = input.Remove(input.Length - 3, 1);
+}
+
+input = input.Remove(input.Length - 2, 2);
+
+input = input.Remove(0, 1);
+
+switch (input.Length) {
+    case 1:
+        Console.WriteLine("!");
+        return;
+    case 0:
+        Console.WriteLine("Hello");
+        return;
+}
+
+Console.WriteLine(input);
