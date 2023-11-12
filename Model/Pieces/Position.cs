@@ -4,10 +4,10 @@ namespace Model.Pieces
 {
     public class Position
     {
-        private string _column;
-        private string _row;
+        private int _column;
+        private int _row;
 
-        public string Column
+        public int Column
         {
             get
             {
@@ -21,7 +21,7 @@ namespace Model.Pieces
             }
         }
 
-        public string Row
+        public int Row
         {
             get
             {
@@ -33,12 +33,6 @@ namespace Model.Pieces
                     _row = value;
                 }
             }
-        }
-
-        public Position(string column, string row)
-        {
-            _column = column;
-            _row = row;
         }
     }
 }
