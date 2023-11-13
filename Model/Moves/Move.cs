@@ -9,6 +9,6 @@ namespace Model.Moves
         public PieceType? PieceTypeToPromoteTo;
         public Position? DestinationPosition;
         public Position? StartPosition;
-        public bool IsCapture;
+        public bool IsCapture = false;
     }
 }

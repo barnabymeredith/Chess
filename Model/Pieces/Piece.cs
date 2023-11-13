@@ -1,4 +1,5 @@
 ﻿using Model.Enums;
+using Model.Moves;
 
 namespace Model.Pieces
 {
@@ -24,7 +25,7 @@ namespace Model.Pieces
 
         public abstract void Capture();
 
-        public abstract bool CanMove(string move);
+        public abstract bool CanMove(Move move);
 
         public abstract bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces);
 
@@ -32,7 +33,7 @@ namespace Model.Pieces
 
         public string GetPositionAlgebraicNotation()
         {
-            return "Hello"; //Column.ToString() + ((int)Row).ToString();
+            return Enum.Parse(typeof(Column), Position.Column.ToString()).ToString() + Position.Row;
         }
     }
 }

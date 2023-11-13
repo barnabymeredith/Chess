@@ -1,4 +1,5 @@
 ﻿using Model.Enums;
+using Model.Moves;
 
 namespace Model.Pieces
 {
@@ -25,26 +26,34 @@ namespace Model.Pieces
 
         }
 
-        public override bool CanMove(string move)
+        public override bool CanMove(Move move)
         {
-            /*if (move[0].ToString() != base.Column.ToString()) return false;
+            if (move.IsCapture && move.DestinationPosition.Column != base.Position.Column - 1 && move.DestinationPosition.Column != base.Position.Column + 1)
+            {
+                return false;
+            }
+            else if (!move.IsCapture && move.DestinationPosition.Column != base.Position.Column) return false;
 
-            var rowStartAsInt = (int)base.Row;
-            var rowEndAsInt = Convert.ToInt32(move[1].ToString());
+            var rowStartAsInt = base.Position.Row;
+            var rowEndAsInt = move.DestinationPosition.Row;
             var rowDifference = rowStartAsInt - rowEndAsInt;
 
-            switch ((base.Colour, rowStartAsInt, rowDifference))
+            switch ((base.Colour, move.IsCapture, rowStartAsInt, rowDifference))
             {
-                case (Colour.White, WhiteDoubleSquareStart, WhiteDoubleDifference):
+                case (Colour.White, false, WhiteDoubleSquareStart, WhiteDoubleDifference):
                     return true;
-                case (Colour.Black, BlackDoubleSquareStart, BlackDoubleDifference):
+                case (Colour.Black, false, BlackDoubleSquareStart, BlackDoubleDifference):
                     return true;
-                case (Colour.White, > 0, WhiteSingleDifference):
+                case (Colour.White, false , > 0, WhiteSingleDifference):
                     return true;
-                case (Colour.Black, > 0, BlackSingleDifference):
+                case (Colour.Black, false, > 0, BlackSingleDifference):
+                    return true;
+                case (Colour.White, true, > 0, WhiteSingleDifference):
+                    return true;
+                case (Colour.Black, true, > 0, BlackSingleDifference):
                     return true;
             }
-            */return false;
+            return false;
         }
 
         public override bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces)

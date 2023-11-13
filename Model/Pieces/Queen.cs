@@ -1,4 +1,5 @@
 ﻿using Model.Enums;
+using Model.Moves;
 
 namespace Model.Pieces
 {
@@ -17,7 +18,7 @@ namespace Model.Pieces
         {
 
         }
-        public override bool CanMove(string move)
+        public override bool CanMove(Move move)
         {
             throw new NotImplementedException();
         }

@@ -12,7 +12,7 @@ namespace StateService
 
         public static bool IsMoveValid(string move, List<Piece> currentGame)
         {
-            Move = move;
+            /*Move = move;
             Pieces = currentGame;
 
             if (!IsMoveSyntaxValid())
@@ -35,7 +35,7 @@ namespace StateService
                 {
                     throw new ArgumentException();
                 }
-            }
+            }*/
 
             return false;
         }

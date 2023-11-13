@@ -15,7 +15,7 @@ namespace StateService
 
             if (PieceInitials.Contains(input.Last())) {
                 move.PieceTypeToPromoteTo = GeneratePiece(input.Last());
-                input = input.Remove(input[input.Length - 1], 1);
+                input = input.Remove(input.Length - 1, 1);
             }
 
             if (input.Length > 2 && input[input.Length - 3] == 'x')

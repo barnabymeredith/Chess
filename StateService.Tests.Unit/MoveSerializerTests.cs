@@ -12,13 +12,14 @@ namespace StateService.Tests.Unit
         {
         }
 
-        [TestCase(PieceType.Pawn, false, 0, 0, 5, 4, "e4")]
-        [TestCase(PieceType.Bishop, false, 0, 0, 1, 1, "Ba1")]
-        [TestCase(PieceType.Queen, true, 0, 0, 1, 1, "Qxa1")]
-        [TestCase(PieceType.Knight, true, 5, 0, 1, 1, "Nexa1")]
-        [TestCase(PieceType.Rook, false, 0, 4, 1, 1, "R4a1")]
-        [TestCase(PieceType.King, true, 2, 3, 1, 1, "Kb3xa1")]
-        public void Serializer_Success(PieceType pieceTypeToMove, bool isCapture, int startCol, int startRow, int col, int row, string input)
+        [TestCase(PieceType.Pawn, PieceType.None, false, 0, 0, 5, 4, "e4")]
+        [TestCase(PieceType.Bishop, PieceType.None, false, 0, 0, 1, 1, "Ba1")]
+        [TestCase(PieceType.Queen, PieceType.None, true, 0, 0, 1, 1, "Qxa1")]
+        [TestCase(PieceType.Knight, PieceType.None, true, 5, 0, 1, 1, "Nexa1")]
+        [TestCase(PieceType.Rook, PieceType.None, false, 0, 4, 1, 1, "R4a1")]
+        [TestCase(PieceType.King, PieceType.None, true, 2, 3, 1, 1, "Kb3xa1")]
+        [TestCase(PieceType.Pawn, PieceType.Queen, false, 0, 0, 5, 8, "e8Q")]
+        public void Serializer_Success(PieceType pieceTypeToMove, PieceType pieceTypeToPromoteTo, bool isCapture, int startCol, int startRow, int col, int row, string input)
         {
             Move expectedMove = new();
             // Arrange
@@ -33,6 +34,7 @@ namespace StateService.Tests.Unit
                 expectedMove = new Move()
                 {
                     PieceTypeToMove = pieceTypeToMove,
+                    PieceTypeToPromoteTo = pieceTypeToPromoteTo,
                     IsCapture = isCapture,
                     StartPosition = startPosition ?? null,
                     DestinationPosition = new Position()
@@ -52,6 +54,7 @@ namespace StateService.Tests.Unit
                 expectedMove = new Move()
                 {
                     PieceTypeToMove = pieceTypeToMove,
+                    PieceTypeToPromoteTo = pieceTypeToPromoteTo,
                     IsCapture = isCapture,
                     StartPosition = startPosition ?? null,
                     DestinationPosition = new Position()
@@ -71,6 +74,7 @@ namespace StateService.Tests.Unit
                 expectedMove = new Move()
                 {
                     PieceTypeToMove = pieceTypeToMove,
+                    PieceTypeToPromoteTo = pieceTypeToPromoteTo,
                     IsCapture = isCapture,
                     StartPosition = startPosition ?? null,
                     DestinationPosition = new Position()
@@ -85,6 +89,7 @@ namespace StateService.Tests.Unit
                 expectedMove = new Move()
                 {
                     PieceTypeToMove = pieceTypeToMove,
+                    PieceTypeToPromoteTo = pieceTypeToPromoteTo,
                     IsCapture = isCapture,
                     StartPosition = null,
                     DestinationPosition = new Position()
