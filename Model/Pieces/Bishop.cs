@@ -4,7 +4,7 @@ namespace Model.Pieces
 {
     public class Bishop : Piece
     {
-        public Bishop(Colour colour, Column column, Row row) : base(colour, column, row)
+        public Bishop(Colour colour, Position position) : base(colour, position)
         {
         }
 
@@ -19,6 +19,16 @@ namespace Model.Pieces
         }
 
         public override bool CanMove(string move)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool SquaresToTraverse(string move)
         {
             throw new NotImplementedException();
         }

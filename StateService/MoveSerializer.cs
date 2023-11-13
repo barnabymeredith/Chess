@@ -18,21 +18,21 @@ namespace StateService
                 input = input.Remove(input[input.Length - 1], 1);
             }
 
-            if (input[input.Length - 3] == 'x')
+            if (input.Length > 2 && input[input.Length - 3] == 'x')
             {
                 move.IsCapture = true;
                 input = input.Remove(input.Length - 3, 1);
             }
 
             move.DestinationPosition = new Position();
-            move.DestinationPosition.Column = Encoding.ASCII.GetBytes(input[input.Length - 2].ToString())[0] - 64;
-            move.DestinationPosition.Row = Encoding.ASCII.GetBytes(input[input.Length - 1].ToString())[0] - 64;
+            move.DestinationPosition.Column = Encoding.ASCII.GetBytes(input[input.Length - 2].ToString())[0] - 96;
+            move.DestinationPosition.Row = Int32.Parse(input[input.Length - 1].ToString());
             input = input.Remove(input.Length - 2, 2);
 
-            if (PieceInitials.Contains(input.First()))
+            if (input.Length > 0 && PieceInitials.Contains(input.First()))
             {
                 move.PieceTypeToMove = GeneratePiece(input[0]);
-                input = input.Remove(input.First(), 1);
+                input = input.Remove(0, 1);
             }
             else
             {
@@ -43,19 +43,19 @@ namespace StateService
             {
                 case 2:
                     move.StartPosition = new Position();
-                    move.StartPosition.Column = Encoding.ASCII.GetBytes(input.First().ToString())[0] - 64;
-                    move.StartPosition.Row = Encoding.ASCII.GetBytes(input.Last().ToString())[0] - 64;
+                    move.StartPosition.Column = Encoding.ASCII.GetBytes(input.First().ToString())[0] - 96;
+                    move.StartPosition.Row = Int32.Parse(input.Last().ToString());
                     break;
                 case 1:
                     if (Enum.IsDefined(typeof(Column), input))
                     {
                         move.StartPosition = new Position();
-                        move.StartPosition.Column = Encoding.ASCII.GetBytes(input)[0] - 64;
+                        move.StartPosition.Column = Encoding.ASCII.GetBytes(input)[0] - 96;
                     }
                     else
                     {
                         move.StartPosition = new Position();
-                        move.StartPosition.Row = Encoding.ASCII.GetBytes(input)[0] - 64;
+                        move.StartPosition.Row = Int32.Parse(input);
                     }
                     break;
             }

@@ -18,7 +18,7 @@ namespace StateService
         {
             if (variant.ToLower() == Variant.Classic.ToString().ToLower()) 
             {
-                CurrentGame = StartClassicMatch();
+                //CurrentGame = StartClassicMatch();
                 return CurrentGame;
             }
             else
@@ -35,14 +35,14 @@ namespace StateService
             {
                 if (CurrentGame.Any(p => p.GetType().Name == "Pawn" && p.GetPositionAlgebraicNotation() == "a2"))
                 {
-                    CurrentGame.Where(p => p.GetPositionAlgebraicNotation() == "a2").FirstOrDefault().Row = Row.Three;
+                    //CurrentGame.Where(p => p.GetPositionAlgebraicNotation() == "a2").FirstOrDefault().Row = Row.Three;
                     return CurrentGame;
                 }
                 return CurrentGame;
             }
             else return CurrentGame;
         }
-
+        /*
         private static List<Piece> StartClassicMatch() 
         {
             var pieces = new List<Piece>();
@@ -76,7 +76,7 @@ namespace StateService
             pieces.Add(new King(Colour.Black, Column.e, (Row)BlackPieceStartRow));
 
             return pieces;
-        }
+        }*/
         
     }
 }

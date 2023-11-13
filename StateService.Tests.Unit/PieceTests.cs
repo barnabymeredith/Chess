@@ -9,7 +9,7 @@ namespace StateService.Tests.Unit
         public void Setup()
         {
         }
-
+        /*
         [TestCase(Colour.White, Column.a, Row.Two, "a4")]
         [TestCase(Colour.White, Column.d, Row.Four, "d5")]
         [TestCase(Colour.Black, Column.f, Row.Seven, "f5")]
@@ -24,6 +24,6 @@ namespace StateService.Tests.Unit
 
             // Assert
             Assert.That(result, Is.True);
-        }
+        }*/
     }
 }

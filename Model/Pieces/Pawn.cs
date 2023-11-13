@@ -11,7 +11,7 @@ namespace Model.Pieces
         public const int WhiteSingleDifference = -1;
         public const int BlackSingleDifference = 1;
 
-        public Pawn(Colour colour, Column column, Row row) : base(colour, column, row) 
+        public Pawn(Colour colour, Position position) : base(colour, position) 
         {
         }
 
@@ -27,7 +27,7 @@ namespace Model.Pieces
 
         public override bool CanMove(string move)
         {
-            if (move[0].ToString() != base.Column.ToString()) return false;
+            /*if (move[0].ToString() != base.Column.ToString()) return false;
 
             var rowStartAsInt = (int)base.Row;
             var rowEndAsInt = Convert.ToInt32(move[1].ToString());
@@ -44,7 +44,7 @@ namespace Model.Pieces
                 case (Colour.Black, > 0, BlackSingleDifference):
                     return true;
             }
-            return false;
+            */return false;
         }
 
         public override bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces)

@@ -11,13 +11,13 @@ namespace Model.Pieces
         public Colour Colour { get => _colour; set => _colour = value; }
 
         public bool IsAlive { get => _isAlive; set => _isAlive = value; }
+        public Position Position { get => _position; set => _position = value; }
 
-        protected Piece(Colour colour, Column column, Row row)
+        protected Piece(Colour colour, Position position)
         {
-            Column = column;
-            Row = row;
             Colour = colour;
             IsAlive = true;
+            Position = position;
         }
 
         public abstract void Move();
@@ -32,7 +32,7 @@ namespace Model.Pieces
 
         public string GetPositionAlgebraicNotation()
         {
-            return Column.ToString() + ((int)Row).ToString();
+            return "Hello"; //Column.ToString() + ((int)Row).ToString();
         }
     }
 }

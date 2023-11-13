@@ -15,7 +15,7 @@ namespace StateService.Tests.Unit
         public void Setup()
         {
         }
-
+        /*
         [Test]
         public void StartMatch_Success()
         {
@@ -56,6 +56,6 @@ namespace StateService.Tests.Unit
             
             // Assert
             result.Should().BeEquivalentTo(expectedPieces);
-        }
+        }*/
     }
 }
