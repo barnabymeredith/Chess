@@ -13,11 +13,17 @@ namespace StateService
         {
             var move = new Move();
 
+            // pawn promotion
             if (PieceInitials.Contains(input.Last())) {
                 move.PieceTypeToPromoteTo = GeneratePiece(input.Last());
                 input = input.Remove(input.Length - 1, 1);
             }
+            else
+            {
+                move.PieceTypeToPromoteTo = PieceType.None;
+            }
 
+            // capture
             if (input.Length > 2 && input[input.Length - 3] == 'x')
             {
                 move.IsCapture = true;
