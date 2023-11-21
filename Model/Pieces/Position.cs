@@ -34,5 +34,11 @@ namespace Model.Pieces
                 }
             }
         }
+
+        public bool IsEqualTo(Position other)
+        {
+            if (this.Column == other.Column && this.Row == other.Row) return true;
+            return false;
+        }
     }
 }

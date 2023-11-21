@@ -1,3 +1,15 @@
 ﻿using System.Text;
 
-Console.WriteLine(Encoding.ASCII.GetBytes('H'.ToString())[0]-64);
+var myInt = 2;
+var word = "hello";
+switch (myInt)
+{
+    case > 1:
+        word = "no";
+        Console.WriteLine("Second one");
+        break;
+    case (> 0):
+        word = "yes";
+        Console.WriteLine("first one");
+        break;
+}

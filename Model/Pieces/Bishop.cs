@@ -24,12 +24,7 @@ namespace Model.Pieces
             throw new NotImplementedException();
         }
 
-        public override bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool SquaresToTraverse(string move)
+        public override List<Position> SquaresToTraverse(Move move)
         {
             throw new NotImplementedException();
         }

@@ -27,13 +27,18 @@ namespace Model.Pieces
 
         public abstract bool CanMove(Move move);
 
-        public abstract bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces);
-
-        public abstract bool SquaresToTraverse(string move);
+        public abstract List<Position> SquaresToTraverse(Move move);
 
         public string GetPositionAlgebraicNotation()
         {
             return Enum.Parse(typeof(Column), Position.Column.ToString()).ToString() + Position.Row;
+        }
+
+        public bool MatchesMoveStartPosition(Move move)
+        {
+            if (move.StartPosition == null) return true;
+
+            return move.StartPosition.IsEqualTo(Position);
         }
     }
 }

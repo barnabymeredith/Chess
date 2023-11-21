@@ -34,13 +34,17 @@ namespace StateService
 
             foreach (Piece piece in CurrentGame.Where(p => p.GetType().Name == move.PieceTypeToMove.ToString()))
             {
-                if (PieceToMove == null && piece.CanMove(move))
+                if (piece.CanMove(move))
                 {
-                    PieceToMove = piece;
-                }
-                else if (PieceToMove != null && piece.CanMove(move))
-                {
-                    throw new ArgumentException();
+                    if (PieceToMove == null)
+                    {
+                        PieceToMove = piece;
+                        move.StartPosition = piece.Position;
+                    }
+                    else if (PieceToMove != null)
+                    {
+                        throw new ArgumentException();
+                    }
                 }
             }
 

@@ -37,11 +37,13 @@ namespace Model.Pieces
             var rowStartAsInt = base.Position.Row;
             var rowEndAsInt = move.DestinationPosition.Row;
             var rowDifference = rowStartAsInt - rowEndAsInt;
+            var moveIsValid = false;
 
             switch ((base.Colour, move.IsCapture, rowStartAsInt, rowDifference))
             {
                 case (Colour.White, false, WhiteDoubleSquareStart, WhiteDoubleDifference):
-                    return true;
+                    moveIsValid = true;
+                    break;
                 case (Colour.Black, false, BlackDoubleSquareStart, BlackDoubleDifference):
                     return true;
                 case (Colour.White, false , > 0, WhiteSingleDifference):
@@ -56,15 +58,19 @@ namespace Model.Pieces
             return false;
         }
 
-        public override bool IsMoveBlockedByOtherPiece(string move, List<Piece> pieces)
+        public override List<Position> SquaresToTraverse(Move move)
         {
-            // make Position.cs so we can return in positions to traverse, also add to piece classes
-            return true;
-        }
-
-        public override bool SquaresToTraverse(string move)
-        {
-            throw new NotImplementedException();
+            var rowDifference = move.DestinationPosition.Row - move.StartPosition.Row;
+            if (Math.Abs(rowDifference) == 2)
+            {
+                var squareList = new List<Position>();
+                squareList.Add(new Position() { Column = base.Position.Column, Row = base.Position.Row + (rowDifference/2)});
+                return squareList;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
