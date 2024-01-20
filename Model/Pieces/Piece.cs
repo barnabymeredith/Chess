@@ -16,9 +16,9 @@ namespace Model.Pieces
 
         protected Piece(Colour colour, Position position)
         {
-            Colour = colour;
-            IsAlive = true;
-            Position = position;
+            _colour = colour;
+            _isAlive = true;
+            _position = position;
         }
 
         public abstract void Move();
@@ -27,7 +27,7 @@ namespace Model.Pieces
 
         public abstract bool CanMove(Move move);
 
-        public abstract List<Position> SquaresToTraverse(Move move);
+        public abstract List<Position>? SquaresToTraverse(Move move);
 
         public string GetPositionAlgebraicNotation()
         {
