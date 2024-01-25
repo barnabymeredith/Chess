@@ -72,8 +72,29 @@ namespace StateService.Tests.Unit
             {
                 Assert.That(result.Count == 1);
                 Assert.That(result[0].IsEqualTo(blackOutputSquareList[0]));
-            }
-            
+            }     
+        }
+
+        [TestCase(Colour.Black, 6, 6, 4, 4, false)]
+        [TestCase(Colour.White, 3, 1, 4, 2, true)]
+        [TestCase(Colour.Black, 7, 1, 8, 2, true)]
+        [TestCase(Colour.White, 5, 5, 8, 8, false)]
+        public void Bishop_CanMove_Success(Colour colour, int col, int row, int destCol, int destRow, bool isCapture)
+        {
+            // Arrange
+            var bishop = new Bishop(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Pawn,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+                IsCapture = isCapture
+            };
+
+            // Act
+            var result = bishop.CanMove(move);
+
+            // Assert
+            Assert.That(result, Is.True);
         }
 
         [TestCase(Colour.White, 6, 6, 4, 4, false, false)]

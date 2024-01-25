@@ -12,6 +12,7 @@ namespace StateService
 
         private static List<Piece>? currentGame = null;
         private static Piece? PieceToMove;
+        private static Colour ColourToMove = Colour.White;
 
         public static List<Piece>? CurrentGame { get => currentGame; set => currentGame = value; }
 
@@ -34,7 +35,7 @@ namespace StateService
 
             foreach (Piece piece in CurrentGame.Where(p => p.GetType().Name == move.PieceTypeToMove.ToString()))
             {
-                if (piece.CanMove(move))
+                if (piece.Colour == ColourToMove && piece.CanMove(move))
                 {
                     if (PieceToMove == null)
                     {
@@ -43,13 +44,12 @@ namespace StateService
                     }
                     else if (PieceToMove != null)
                     {
-                        throw new ArgumentException();
+                        throw new ArgumentException("This move is ambiguous between two potential pieces.");
                     }
                 }
             }
 
             return null;
-
         }
         
         private static List<Piece> StartClassicMatch() 

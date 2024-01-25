@@ -21,7 +21,8 @@ namespace StateService.Tests.Unit
         [TestCase(PieceType.Pawn, PieceType.Queen, false, 0, 0, 5, 8, "e8Q")]
         public void Serializer_Success(PieceType pieceTypeToMove, PieceType pieceTypeToPromoteTo, bool isCapture, int startCol, int startRow, int col, int row, string input)
         {
-            Move expectedMove = new();
+            Move expectedMove;
+
             // Arrange
             if (!(startCol == 0 && startRow == 0))
             {
