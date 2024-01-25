@@ -75,5 +75,27 @@ namespace StateService.Tests.Unit
             }
             
         }
+
+        [TestCase(Colour.White, 6, 6, 4, 4, false, false)]
+        [TestCase(Colour.White, 2, 2, 3, 3, true, false)]
+        [TestCase(Colour.Black, 1, 1, 7, 7, true, true)]
+        [TestCase(Colour.Black, 1, 7, 2, 7, true, true)]
+        public void Bishop_SquaresToTraverse_Positive(Colour colour, int col, int row, int destCol, int destRow, bool isCapture, bool outputSquares)
+        {
+            // Arrange
+            var bishop = new Bishop(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Bishop,
+                StartPosition = bishop.Position,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+                IsCapture = isCapture
+            };
+            var expectedResult = new List<Position>();
+            for ()
+
+            // Act
+            var result = bishop.SquaresToTraverse(move);
+        }
     }
 }
