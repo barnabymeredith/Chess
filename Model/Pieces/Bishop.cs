@@ -26,8 +26,7 @@ namespace Model.Pieces
                 throw new Exception();
             }
 
-            var rowDifference = move.DestinationPosition.Row - base.Position.Row;
-            var colDifference = move.DestinationPosition.Column - base.Position.Column;
+            var (rowDifference, colDifference) = GetDifferenceStartDestinationPosition(move);
 
             if (Math.Abs(rowDifference) - Math.Abs(colDifference) == 0)
             {
@@ -46,9 +45,9 @@ namespace Model.Pieces
 
             var squaresToTraverse = new List<Position>();
 
-            // could make Difference() method in position class
-            var rowIterator = Math.Sign(move.DestinationPosition.Row - move.StartPosition.Row);
-            var colIterator = Math.Sign(move.DestinationPosition.Column - move.StartPosition.Column);
+            var (rowDifference, colDifference) = GetDifferenceStartDestinationPosition(move);
+            var rowIterator = Math.Sign(rowDifference);
+            var colIterator = Math.Sign(colDifference);
 
             var r = move.StartPosition.Row + rowIterator;
             var c = move.StartPosition.Column + colIterator;

@@ -1,4 +1,5 @@
-﻿using Model.Enums;
+﻿using FluentAssertions;
+using Model.Enums;
 using Model.Moves;
 using Model.Pieces;
 
@@ -97,11 +98,8 @@ namespace StateService.Tests.Unit
             Assert.That(result, Is.True);
         }
 
-        [TestCase(Colour.White, 6, 6, 4, 4, false, false)]
-        [TestCase(Colour.White, 2, 2, 3, 3, true, false)]
-        [TestCase(Colour.Black, 1, 1, 7, 7, true, true)]
-        [TestCase(Colour.Black, 1, 7, 2, 7, true, true)]
-        public void Bishop_SquaresToTraverse_Positive(Colour colour, int col, int row, int destCol, int destRow, bool isCapture, bool outputSquares)
+        [TestCase(Colour.Black, 3, 1, 8, 6)]
+        public void Bishop_SquaresToTraverse_Positive(Colour colour, int col, int row, int destCol, int destRow)
         {
             // Arrange
             var bishop = new Bishop(colour, new Position() { Column = col, Row = row });
@@ -110,13 +108,20 @@ namespace StateService.Tests.Unit
                 PieceTypeToMove = PieceType.Bishop,
                 StartPosition = bishop.Position,
                 DestinationPosition = new Position() { Column = destCol, Row = destRow },
-                IsCapture = isCapture
             };
-            var expectedResult = new List<Position>();
-            for ()
+            var expectedResult = new List<Position>
+            {
+                new Position() { Column = 4, Row = 2 },
+                new Position() { Column = 5, Row = 3 },
+                new Position() { Column = 6, Row = 4 },
+                new Position() { Column = 7, Row = 5 }
+            };
 
             // Act
             var result = bishop.SquaresToTraverse(move);
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedResult);
         }
     }
 }

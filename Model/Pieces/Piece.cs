@@ -40,5 +40,12 @@ namespace Model.Pieces
 
             return move.StartPosition.IsEqualTo(Position);
         }
+
+        protected Tuple<int, int> GetDifferenceStartDestinationPosition(Move move)
+        {
+            var rowDifference = move.DestinationPosition.Row - Position.Row;
+            var colDifference = move.DestinationPosition.Column - Position.Column;
+            return Tuple.Create(rowDifference, colDifference);
+        }
     }
 }
