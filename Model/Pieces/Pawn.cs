@@ -16,16 +16,6 @@ namespace Model.Pieces
         {
         }
 
-        public override void Move()
-        {
-
-        }
-
-        public override void Capture()
-        {
-
-        }
-
         public override bool CanMove(Move move)
         {
             if (move.DestinationPosition == null)

@@ -9,16 +9,6 @@ namespace Model.Pieces
         {
         }
 
-        public override void Move()
-        {
-
-        }
-
-        public override void Capture()
-        {
-
-        }
-
         public override bool CanMove(Move move)
         {
             throw new NotImplementedException();

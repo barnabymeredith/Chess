@@ -21,10 +21,6 @@ namespace Model.Pieces
             _position = position;
         }
 
-        public abstract void Move();
-
-        public abstract void Capture();
-
         public abstract bool CanMove(Move move);
 
         public abstract List<Position>? SquaresToTraverse(Move move);

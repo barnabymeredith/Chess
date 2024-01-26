@@ -9,23 +9,46 @@ namespace Model.Pieces
         {
         }
 
-        public override void Move()
-        {
-
-        }
-
-        public override void Capture()
-        {
-
-        }
         public override bool CanMove(Move move)
         {
-            throw new NotImplementedException();
+            var (rowDifference, colDifference) = GetDifferenceStartDestinationPosition(move);
+            rowDifference = Math.Abs(rowDifference);
+            colDifference = Math.Abs(colDifference);
+
+            if (rowDifference * colDifference == 0 && rowDifference + colDifference > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public override List<Position> SquaresToTraverse(Move move)
         {
-            throw new NotImplementedException();
+            if (move.StartPosition == null || move.DestinationPosition == null)
+            {
+                throw new Exception();
+            }
+
+            var squaresToTraverse = new List<Position>();
+
+            var (rowDifference, colDifference) = GetDifferenceStartDestinationPosition(move);
+            var rowIterator = Math.Sign(rowDifference);
+            var colIterator = Math.Sign(colDifference);
+
+            if (rowDifference == 0)
+            {
+                for (var i = move.StartPosition.Column + 1; i < move.DestinationPosition.Column; i+=colIterator)
+                {
+                    squaresToTraverse.Add(new Position() { Column = i, Row = move.StartPosition.Row });
+                }
+                return squaresToTraverse;
+            }
+            for (var i = move.StartPosition.Row + 1; i < move.DestinationPosition.Row; i += rowIterator)
+            {
+                squaresToTraverse.Add(new Position() { Column = move.StartPosition.Column, Row = move.StartPosition.Row });
+            }
+            return squaresToTraverse;
         }
     }
 }

@@ -9,23 +9,23 @@ namespace Model.Pieces
         {
         }
 
-        public override void Move()
-        {
-
-        }
-
-        public override void Capture()
-        {
-
-        }
         public override bool CanMove(Move move)
         {
-            throw new NotImplementedException();
+            var (rowDifference, colDifference) = GetDifferenceStartDestinationPosition(move);
+            rowDifference = Math.Abs(rowDifference);
+            colDifference = Math.Abs(colDifference);
+
+            if (rowDifference > 0 && colDifference > 0 && rowDifference + colDifference == 3)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public override List<Position> SquaresToTraverse(Move move)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

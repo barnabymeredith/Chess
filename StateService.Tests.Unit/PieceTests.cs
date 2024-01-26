@@ -66,12 +66,12 @@ namespace StateService.Tests.Unit
             }
             else if (colour == Colour.White)
             {
-                Assert.That(result.Count == 1);
+                Assert.That(result!.Count == 1);
                 Assert.That(result[0].IsEqualTo(whiteOutputSquareList[0]));
             }
             else
             {
-                Assert.That(result.Count == 1);
+                Assert.That(result!.Count == 1);
                 Assert.That(result[0].IsEqualTo(blackOutputSquareList[0]));
             }     
         }
@@ -86,7 +86,7 @@ namespace StateService.Tests.Unit
             var bishop = new Bishop(colour, new Position() { Column = col, Row = row });
             var move = new Move()
             {
-                PieceTypeToMove = PieceType.Pawn,
+                PieceTypeToMove = PieceType.Bishop,
                 DestinationPosition = new Position() { Column = destCol, Row = destRow },
                 IsCapture = isCapture
             };
@@ -122,6 +122,66 @@ namespace StateService.Tests.Unit
 
             // Assert
             result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [TestCase(Colour.Black, 3, 1, 4, 3, false)]
+        [TestCase(Colour.White, 5, 7, 3, 6, true)]
+        [TestCase(Colour.Black, 7, 3, 8, 1, true)]
+        public void Knight_CanMove_Success(Colour colour, int col, int row, int destCol, int destRow, bool isCapture)
+        {
+            // Arrange
+            var knight = new Knight(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Knight,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+                IsCapture = isCapture
+            };
+
+            // Act
+            var result = knight.CanMove(move);
+
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [TestCase(Colour.Black, 3, 1, 8, 6)]
+        public void Knight_SquaresToTraverse_Positive(Colour colour, int col, int row, int destCol, int destRow)
+        {
+            // Arrange
+            var knight = new Knight(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Knight,
+                StartPosition = knight.Position,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+            };
+
+            // Act
+            var result = knight.SquaresToTraverse(move);
+
+            // Assert
+            result.Should().BeNull();
+        }
+        [TestCase(Colour.Black, 3, 1, 3, 6, false)]
+        [TestCase(Colour.White, 5, 7, 2, 7, true)]
+        [TestCase(Colour.Black, 7, 3, 7, 1, true)]
+        public void Rook_CanMove_Success(Colour colour, int col, int row, int destCol, int destRow, bool isCapture)
+        {
+            // Arrange
+            var rook = new Rook(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Rook,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+                IsCapture = isCapture
+            };
+
+            // Act
+            var result = rook.CanMove(move);
+
+            // Assert
+            Assert.That(result, Is.True);
         }
     }
 }
