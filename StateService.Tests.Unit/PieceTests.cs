@@ -163,6 +163,7 @@ namespace StateService.Tests.Unit
             // Assert
             result.Should().BeNull();
         }
+
         [TestCase(Colour.Black, 3, 1, 3, 6, false)]
         [TestCase(Colour.White, 5, 7, 2, 7, true)]
         [TestCase(Colour.Black, 7, 3, 7, 1, true)]
@@ -182,6 +183,150 @@ namespace StateService.Tests.Unit
 
             // Assert
             Assert.That(result, Is.True);
+        }
+
+        [TestCase(Colour.Black, 3, 1, 3, 7)]
+        public void Rook_SquaresToTraverse_Positive(Colour colour, int col, int row, int destCol, int destRow)
+        {
+            // Arrange
+            var rook = new Rook(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Bishop,
+                StartPosition = rook.Position,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+            };
+            var expectedResult = new List<Position>
+            {
+                new Position() { Column = 3, Row = 2 },
+                new Position() { Column = 3, Row = 3 },
+                new Position() { Column = 3, Row = 4 },
+                new Position() { Column = 3, Row = 5 },
+                new Position() { Column = 3, Row = 6 }
+            };
+
+            // Act
+            var result = rook.SquaresToTraverse(move);
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [TestCase(Colour.Black, 6, 6, 4, 4, false)]
+        [TestCase(Colour.White, 3, 1, 4, 2, true)]
+        [TestCase(Colour.Black, 7, 1, 8, 2, true)]
+        [TestCase(Colour.White, 5, 5, 8, 8, false)]
+        [TestCase(Colour.Black, 3, 1, 3, 6, false)]
+        [TestCase(Colour.White, 5, 7, 2, 7, true)]
+        [TestCase(Colour.Black, 7, 3, 7, 1, true)]
+        public void Queen_CanMove_Success(Colour colour, int col, int row, int destCol, int destRow, bool isCapture)
+        {
+            // Arrange
+            var queen = new Queen(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Queen,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+                IsCapture = isCapture
+            };
+
+            // Act
+            var result = queen.CanMove(move);
+
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [TestCase(Colour.Black, 3, 1, 3, 7)]
+        public void Queen_SquaresToTraverseStraight_Positive(Colour colour, int col, int row, int destCol, int destRow)
+        {
+            // Arrange
+            var queen = new Queen(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Queen,
+                StartPosition = queen.Position,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+            };
+            var expectedResult = new List<Position>
+            {
+                new Position() { Column = 3, Row = 2 },
+                new Position() { Column = 3, Row = 3 },
+                new Position() { Column = 3, Row = 4 },
+                new Position() { Column = 3, Row = 5 },
+                new Position() { Column = 3, Row = 6 }
+            };
+
+            // Act
+            var result = queen.SquaresToTraverse(move);
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [TestCase(Colour.Black, 3, 1, 8, 6)]
+        public void Queen_SquaresToTraverseDiagonal_Positive(Colour colour, int col, int row, int destCol, int destRow)
+        {
+            // Arrange
+            var queen = new Queen(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.Queen,
+                StartPosition = queen.Position,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+            };
+            var expectedResult = new List<Position>
+            {
+                new Position() { Column = 4, Row = 2 },
+                new Position() { Column = 5, Row = 3 },
+                new Position() { Column = 6, Row = 4 },
+                new Position() { Column = 7, Row = 5 }
+            };
+
+            // Act
+            var result = queen.SquaresToTraverse(move);
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [TestCase(Colour.Black, 6, 6, 6, 5, false)]
+        [TestCase(Colour.White, 3, 1, 4, 1, true)]
+        public void King_CanMove_Success(Colour colour, int col, int row, int destCol, int destRow, bool isCapture)
+        {
+            // Arrange
+            var king = new King(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.King,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+                IsCapture = isCapture
+            };
+
+            // Act
+            var result = king.CanMove(move);
+
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [TestCase(Colour.Black, 3, 1, 8, 6)]
+        public void King_SquaresToTraverse_Positive(Colour colour, int col, int row, int destCol, int destRow)
+        {
+            // Arrange
+            var king = new King(colour, new Position() { Column = col, Row = row });
+            var move = new Move()
+            {
+                PieceTypeToMove = PieceType.King,
+                StartPosition = king.Position,
+                DestinationPosition = new Position() { Column = destCol, Row = destRow },
+            };
+
+            // Act
+            var result = king.SquaresToTraverse(move);
+
+            // Assert
+            result.Should().BeNull();
         }
     }
 }

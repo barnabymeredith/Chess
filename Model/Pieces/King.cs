@@ -11,12 +11,26 @@ namespace Model.Pieces
 
         public override bool CanMove(Move move)
         {
-            throw new NotImplementedException();
+            if (move.DestinationPosition == null)
+            {
+                throw new Exception();
+            }
+
+            var (rowDifference, colDifference) = GetDifferenceStartDestinationPosition(move);
+            rowDifference = Math.Abs(rowDifference);
+            colDifference = Math.Abs(colDifference);
+
+            if (rowDifference + colDifference < 3 && colDifference < 2 && rowDifference < 2)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public override List<Position> SquaresToTraverse(Move move)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

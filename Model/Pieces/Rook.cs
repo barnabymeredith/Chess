@@ -46,7 +46,7 @@ namespace Model.Pieces
             }
             for (var i = move.StartPosition.Row + 1; i < move.DestinationPosition.Row; i += rowIterator)
             {
-                squaresToTraverse.Add(new Position() { Column = move.StartPosition.Column, Row = move.StartPosition.Row });
+                squaresToTraverse.Add(new Position() { Column = move.StartPosition.Column, Row = i });
             }
             return squaresToTraverse;
         }
