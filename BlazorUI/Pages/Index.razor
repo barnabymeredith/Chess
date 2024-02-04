@@ -1,0 +1,23 @@
+﻿@page "/"
+@using Model.Pieces;
+@using StateService;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+@foreach (var piece in pieces)
+{
+    <tr>
+        <td>@piece.GetType()</td>
+        <td>@piece.GetPositionAlgebraicNotation()</td>
+    </tr>
+}
+
+@code {
+    private List<Piece>? pieces;
+    protected override async Task OnInitializedAsync()
+    {
+        pieces = Machine.StartMatch("classic");
+    }
+}

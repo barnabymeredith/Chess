@@ -13,6 +13,8 @@ namespace StateService
         private static List<Piece>? currentGame = null;
         private static Piece? PieceToMove;
         private static Colour ColourToMove = Colour.White;
+        private static bool IsWhiteInCheck = false;
+        private static bool IsBlackInCheck = false;
 
         public static List<Piece>? CurrentGame { get => currentGame; set => currentGame = value; }
 
