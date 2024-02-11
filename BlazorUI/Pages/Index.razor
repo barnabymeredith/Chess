@@ -1,23 +1,49 @@
 ﻿@page "/"
 @using Model.Pieces;
 @using StateService;
+@using System.IO.Pipelines;
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
-
-@foreach (var piece in pieces)
+@if (pieces == null)
 {
-    <tr>
-        <td>@piece.GetType()</td>
-        <td>@piece.GetPositionAlgebraicNotation()</td>
-    </tr>
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+<table class="table">
+    <tbody>
+        @for (int x=1;x<9;x++)
+        {
+            <tr>
+                @for (int y = 1; y < 9; y++)
+                {
+                        <td>
+                            @if (@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault() == null)
+                            {
+                                <div>"&nbsp;&nbsp;"</div>
+                            }
+                            @pieces.Where(p => p.PositionIs(x,y))?.FirstOrDefault()?.GetType().ToString()[13]</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<input type="text" @bind="moveInput" />
+<button class="btn btn-primary" @onclick="Move">Click me</button>
 }
 
 @code {
     private List<Piece>? pieces;
+    private string moveInput;
     protected override async Task OnInitializedAsync()
     {
         pieces = Machine.StartMatch("classic");
+    }
+    private void Move()
+    {
+        pieces = Machine.Move(moveInput);
     }
 }

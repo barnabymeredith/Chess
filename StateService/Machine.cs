@@ -1,4 +1,5 @@
 ﻿using Model.Enums;
+using Model.Moves;
 using Model.Pieces;
 
 namespace StateService
@@ -15,6 +16,7 @@ namespace StateService
         private static Colour ColourToMove = Colour.White;
         private static bool IsWhiteInCheck = false;
         private static bool IsBlackInCheck = false;
+        private static Move? LastMove = null;
 
         public static List<Piece>? CurrentGame { get => currentGame; set => currentGame = value; }
 
@@ -35,23 +37,36 @@ namespace StateService
         {
             var move = MoveSerializer.Serialize(moveChessNotation);
 
+            if (move.DestinationPosition == null)
+            {
+                throw new Exception();
+            }
+
             foreach (Piece piece in CurrentGame.Where(p => p.GetType().Name == move.PieceTypeToMove.ToString()))
             {
                 if (piece.Colour == ColourToMove && piece.CanMove(move))
                 {
-                    if (PieceToMove == null)
+                    if (PieceToMove != null)
+                    {
+                        throw new ArgumentException("This move is ambiguous between two potential pieces.");
+                    }
+                    else
                     {
                         PieceToMove = piece;
                         move.StartPosition = piece.Position;
                     }
-                    else if (PieceToMove != null)
-                    {
-                        throw new ArgumentException("This move is ambiguous between two potential pieces.");
-                    }
                 }
+
+            }
+            // TBD this should return message to front-end and display to user
+            if (PieceToMove == null)
+            {
+                throw new Exception("No piece can do that move.");
             }
 
-            return null;
+            PieceToMove.Position = move.DestinationPosition;
+
+            return CurrentGame;
         }
         
         private static List<Piece> StartClassicMatch() 

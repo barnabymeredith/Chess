@@ -37,6 +37,12 @@ namespace Model.Pieces
             return move.StartPosition.IsEqualTo(Position);
         }
 
+        public bool PositionIs(int row, int col)
+        {
+            if (row == Position.Row && col == Position.Column) return true;
+            return false;
+        }
+
         protected Tuple<int, int> GetDifferenceStartDestinationPosition(Move move)
         {
             var rowDifference = move.DestinationPosition.Row - Position.Row;
