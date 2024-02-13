@@ -44,28 +44,68 @@ namespace StateService
 
             foreach (Piece piece in CurrentGame.Where(p => p.GetType().Name == move.PieceTypeToMove.ToString()))
             {
-                if (piece.Colour == ColourToMove && piece.CanMove(move))
+                move.StartPosition = piece.Position;
+                List<Position> occupiedSquares = CurrentGame.Select(c => c.Position).ToList();
+                List<Position> occupiedSquaresThisPlayer = CurrentGame.Where(p => p.Colour == piece.Colour).Select(p => p.Position).ToList();
+
+                if (piece.Colour == ColourToMove && piece.CanMove(move) && !move.DestinationPosition.IsEqualToAnyInList(occupiedSquaresThisPlayer))
                 {
-                    if (PieceToMove != null)
+                    if (piece.SquaresToTraverse(move) != null)
                     {
-                        throw new ArgumentException("This move is ambiguous between two potential pieces.");
+                        if (!piece.SquaresToTraverse(move).Any(s => s.IsEqualToAnyInList(occupiedSquares))) 
+                        {
+                            if (PieceToMove != null)
+                            {
+                                move.StartPosition = null;
+                                return null;
+                            }
+                            else
+                            {
+                                PieceToMove = piece;
+                            }
+                        }
                     }
                     else
                     {
-                        PieceToMove = piece;
-                        move.StartPosition = piece.Position;
+                        if (PieceToMove != null)
+                        {
+                            move.StartPosition = null;
+                            return null;
+                        }
+                        else
+                        {
+                            PieceToMove = piece;
+                        }
                     }
                 }
-
             }
-            // TBD this should return message to front-end and display to user
+
             if (PieceToMove == null)
             {
-                throw new Exception("No piece can do that move.");
+                return null;
+            }
+
+            move.StartPosition = PieceToMove.Position;
+
+            var pieceToRemove = CurrentGame.Where(p => p.Position.IsEqualTo(move.DestinationPosition)).FirstOrDefault();
+            if (pieceToRemove != null)
+            {
+                CurrentGame.Remove(pieceToRemove);
             }
 
             PieceToMove.Position = move.DestinationPosition;
 
+            if (ColourToMove == Colour.White)
+            {
+                ColourToMove = Colour.Black;
+            }
+            else
+            {
+                ColourToMove = Colour.White;
+            }
+
+            LastMove = move;
+            PieceToMove = null;
             return CurrentGame;
         }
         

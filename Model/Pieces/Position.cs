@@ -40,5 +40,14 @@ namespace Model.Pieces
             if (this.Column == other.Column && this.Row == other.Row) return true;
             return false;
         }
+
+        public bool IsEqualToAnyInList(List<Position> others)
+        {
+            foreach (Position square in others)
+            {
+                if (this.Column == square.Column && this.Row == square.Row) return true;
+            }
+            return false;
+        }
     }
 }

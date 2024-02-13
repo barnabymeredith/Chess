@@ -1,7 +1,9 @@
 ﻿@page "/"
 @using Model.Pieces;
+@using Newtonsoft.Json;
 @using StateService;
 @using System.IO.Pipelines;
+@using Newtonsoft;
 
 <PageTitle>Index</PageTitle>
 
@@ -11,6 +13,11 @@
 }
 else
 {
+
+    @if (showBadMoveError)
+    {
+        <div>That move is impossible.</div>
+    }
 
 <table class="table">
     <tbody>
@@ -38,12 +45,20 @@ else
 @code {
     private List<Piece>? pieces;
     private string moveInput;
+    private bool showBadMoveError = false;
     protected override async Task OnInitializedAsync()
     {
         pieces = Machine.StartMatch("classic");
     }
     private void Move()
     {
-        pieces = Machine.Move(moveInput);
+        if (Machine.Move(moveInput) == null)
+        {
+            showBadMoveError = true;
+        }
+        else
+        {
+            showBadMoveError = false;
+        }
     }
 }
