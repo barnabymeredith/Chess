@@ -39,14 +39,33 @@ namespace StateService
 
             if (move.DestinationPosition == null)
             {
-                throw new Exception();
+                return null;
+            }
+
+            List<Position> occupiedSquares = CurrentGame.Select(c => c.Position).ToList();
+            List<Position> occupiedSquaresThisPlayer = CurrentGame.Where(p => p.Colour == ColourToMove).Select(p => p.Position).ToList();
+            List<Position> occupiedSquaresOtherPlayer;
+            if (ColourToMove == Colour.White) { 
+                occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.Black).Select(p => p.Position).ToList();
+            }
+            else
+            {
+                occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.White).Select(p => p.Position).ToList();
+            }
+
+            if (!move.IsCapture && occupiedSquares.Any(s => s.IsEqualTo(move.DestinationPosition)))
+            {
+                return null;
+            }
+
+            if (move.IsCapture && !occupiedSquaresOtherPlayer.Any(s => s.IsEqualTo(move.DestinationPosition)))
+            {
+                return null;
             }
 
             foreach (Piece piece in CurrentGame.Where(p => p.GetType().Name == move.PieceTypeToMove.ToString()))
             {
                 move.StartPosition = piece.Position;
-                List<Position> occupiedSquares = CurrentGame.Select(c => c.Position).ToList();
-                List<Position> occupiedSquaresThisPlayer = CurrentGame.Where(p => p.Colour == piece.Colour).Select(p => p.Position).ToList();
 
                 if (piece.Colour == ColourToMove && piece.CanMove(move) && !move.DestinationPosition.IsEqualToAnyInList(occupiedSquaresThisPlayer))
                 {
@@ -54,6 +73,7 @@ namespace StateService
                     {
                         if (!piece.SquaresToTraverse(move).Any(s => s.IsEqualToAnyInList(occupiedSquares))) 
                         {
+                            // This statement being true means two pieces can do this move, thus it is too ambigious to be a valid move.
                             if (PieceToMove != null)
                             {
                                 move.StartPosition = null;

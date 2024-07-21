@@ -61,9 +61,9 @@ namespace Model.Pieces
             }
 
             var rowDifference = move.DestinationPosition.Row - move.StartPosition.Row;
+            var squareList = new List<Position>();
             if (Math.Abs(rowDifference) == 2)
             {
-                var squareList = new List<Position>();
                 squareList.Add(new Position() { Column = base.Position.Column, Row = base.Position.Row + (rowDifference/2)});
                 return squareList;
             }

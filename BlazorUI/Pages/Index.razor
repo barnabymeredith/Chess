@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Model.Pieces;
+@using Model.Enums;
 @using Newtonsoft.Json;
 @using StateService;
 @using System.IO.Pipelines;
@@ -26,12 +27,30 @@ else
             <tr>
                 @for (int y = 1; y < 9; y++)
                 {
-                        <td>
-                            @if (@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault() == null)
-                            {
+
+                        @if (@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault() == null)
+                        {
+                            <td>
                                 <div>"&nbsp;&nbsp;"</div>
+                            </td>
+                        }
+                        else
+                        {
+                            if (@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()!.Colour == Colour.Black)
+                            {
+                                <td>
+                                    <p>@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()?.GetType().ToString()[13]</p>
+                                </td>
                             }
-                            @pieces.Where(p => p.PositionIs(x,y))?.FirstOrDefault()?.GetType().ToString()[13]</td>
+                            else
+                            {
+                            <td>
+                                    <p class="white-piece">@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()?.GetType().ToString()[13]</p>
+                            </td>
+                            }
+                        }
+                        
+                            
                 }
             </tr>
         }
@@ -62,3 +81,10 @@ else
         }
     }
 }
+
+<style>
+    .white-piece {
+        color:red;
+        font-style: italic;
+    }
+</style>

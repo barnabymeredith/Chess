@@ -62,7 +62,7 @@ namespace StateService.Tests.Unit
             // Assert
             if (!outputSquares)
             {
-                Assert.That(result, Is.Null);
+                Assert.That(result[0].IsEqualTo(move.DestinationPosition));
             }
             else if (colour == Colour.White)
             {
