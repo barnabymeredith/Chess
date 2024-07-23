@@ -42,78 +42,41 @@ namespace StateService
                 return null;
             }
 
-            List<Position> occupiedSquares = CurrentGame.Select(c => c.Position).ToList();
-            List<Position> occupiedSquaresThisPlayer = CurrentGame.Where(p => p.Colour == ColourToMove).Select(p => p.Position).ToList();
-            List<Position> occupiedSquaresOtherPlayer;
-            if (ColourToMove == Colour.White) { 
-                occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.Black).Select(p => p.Position).ToList();
-            }
-            else
+            if (!CanMoveInGameContext(move)) 
             {
-                occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.White).Select(p => p.Position).ToList();
+                PieceToMove = null;
+                return null; 
             }
 
-            if (!move.IsCapture && occupiedSquares.Any(s => s.IsEqualTo(move.DestinationPosition)))
-            {
-                return null;
-            }
-
-            if (move.IsCapture && !occupiedSquaresOtherPlayer.Any(s => s.IsEqualTo(move.DestinationPosition)))
-            {
-                return null;
-            }
-
-            foreach (Piece piece in CurrentGame.Where(p => p.GetType().Name == move.PieceTypeToMove.ToString()))
-            {
-                move.StartPosition = piece.Position;
-
-                if (piece.Colour == ColourToMove && piece.CanMove(move) && !move.DestinationPosition.IsEqualToAnyInList(occupiedSquaresThisPlayer))
-                {
-                    if (piece.SquaresToTraverse(move) != null)
-                    {
-                        if (!piece.SquaresToTraverse(move).Any(s => s.IsEqualToAnyInList(occupiedSquares))) 
-                        {
-                            // This statement being true means two pieces can do this move, thus it is too ambigious to be a valid move.
-                            if (PieceToMove != null)
-                            {
-                                move.StartPosition = null;
-                                return null;
-                            }
-                            else
-                            {
-                                PieceToMove = piece;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (PieceToMove != null)
-                        {
-                            move.StartPosition = null;
-                            return null;
-                        }
-                        else
-                        {
-                            PieceToMove = piece;
-                        }
-                    }
-                }
-            }
-
-            if (PieceToMove == null)
-            {
-                return null;
-            }
-
-            move.StartPosition = PieceToMove.Position;
+            move.StartPosition = PieceToMove!.Position;
 
             var pieceToRemove = CurrentGame.Where(p => p.Position.IsEqualTo(move.DestinationPosition)).FirstOrDefault();
+
             if (pieceToRemove != null)
             {
                 CurrentGame.Remove(pieceToRemove);
             }
 
+            var tempSaveOldPosition = PieceToMove!.Position;
             PieceToMove.Position = move.DestinationPosition;
+
+            foreach (var piece in CurrentGame.Where(p => p.Colour != ColourToMove))
+            {
+                var tempMove = new Move()
+                {
+                    DestinationPosition = CurrentGame.Where(p => p.Colour == ColourToMove && p.GetType().Name == "King").FirstOrDefault().Position,
+                    StartPosition = piece.Position,
+                    PieceTypeToMove = MoveSerializer.GeneratePiece(piece.GetType().Name[0]),
+                    IsCapture = true,
+                };
+
+                if (CanMoveInGameContext(tempMove))
+                {
+                    CurrentGame.Add(pieceToRemove);
+                    PieceToMove.Position = tempSaveOldPosition;
+                    return null;
+                }
+            }
 
             if (ColourToMove == Colour.White)
             {
@@ -127,6 +90,93 @@ namespace StateService
             LastMove = move;
             PieceToMove = null;
             return CurrentGame;
+        }
+
+        private static bool CanMoveInGameContext(Move move)
+        {
+            Piece pieceToMove = null;
+            List<Position> occupiedSquares = CurrentGame.Select(c => c.Position).ToList();
+            List<Position> occupiedSquaresThisPlayer = CurrentGame.Where(p => p.Colour == ColourToMove).Select(p => p.Position).ToList();
+            List<Position> occupiedSquaresOtherPlayer;
+            var colourToMoveTemp = ColourToMove;
+
+            if (move.StartPosition != null)
+            {
+                colourToMoveTemp = CurrentGame.Where(p => p.Position.IsEqualTo(move.StartPosition)).FirstOrDefault().Colour;
+            }
+
+            if (colourToMoveTemp == Colour.White)
+            {
+                occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.Black).Select(p => p.Position).ToList();
+            }
+            else
+            {
+                occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.White).Select(p => p.Position).ToList();
+            }
+
+            if (!move.IsCapture && occupiedSquares.Any(s => s.IsEqualTo(move.DestinationPosition)))
+            {
+                return false;
+            }
+
+            if (move.IsCapture && !occupiedSquares.Any(s => s.IsEqualTo(move.DestinationPosition)))
+            {
+                return false;
+            }
+
+            foreach (Piece piece in CurrentGame.Where(p => p.GetType().Name == move.PieceTypeToMove.ToString()))
+            {
+                move.StartPosition = piece.Position;
+
+                if (piece.Colour == colourToMoveTemp && piece.CanMove(move) && !move.DestinationPosition.IsEqualToAnyInList(occupiedSquaresThisPlayer))
+                {
+                    if (piece.SquaresToTraverse(move) != null)
+                    {
+                        if (!piece.SquaresToTraverse(move).Any(s => s.IsEqualToAnyInList(occupiedSquares)))
+                        {
+                            // This statement being true means two pieces can do this move, thus it is too ambigious to be a valid move.
+                            if (pieceToMove != null)
+                            {
+                                move.StartPosition = null;
+                                return false;
+                            }
+                            else
+                            {
+                                pieceToMove = piece;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (pieceToMove != null)
+                        {
+                            move.StartPosition = null;
+                            return false;
+                        }
+                        else
+                        {
+                            pieceToMove = piece;
+                        }
+                    }
+                }
+            }
+
+           if (pieceToMove == null)
+            {
+                return false;
+            }
+
+            if (occupiedSquares.Any(s => s.IsEqualTo(move.DestinationPosition)) && (CurrentGame.Where(p => p.Position.IsEqualTo(move.DestinationPosition)).FirstOrDefault().Colour == pieceToMove.Colour))
+            {
+                return false;
+            }
+
+            if (PieceToMove == null)
+            {
+                PieceToMove = pieceToMove;
+            }
+
+            return true;
         }
         
         private static List<Piece> StartClassicMatch() 

@@ -6,8 +6,6 @@
 @using System.IO.Pipelines;
 @using Newtonsoft;
 
-<PageTitle>Index</PageTitle>
-
 @if (pieces == null)
 {
     <p><em>Loading...</em></p>
@@ -39,13 +37,13 @@ else
                             if (@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()!.Colour == Colour.Black)
                             {
                                 <td>
-                                    <p>@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()?.GetType().ToString()[13]</p>
+                                    <p>&nbsp;@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()?.GetType().ToString()[13]&nbsp;</p>
                                 </td>
                             }
                             else
                             {
                             <td>
-                                    <p class="white-piece">@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()?.GetType().ToString()[13]</p>
+                                    <p class="white-piece">&nbsp;@pieces.Where(p => p.PositionIs(x, y))?.FirstOrDefault()?.GetType().ToString()[13]&nbsp;</p>
                             </td>
                             }
                         }
@@ -85,6 +83,5 @@ else
 <style>
     .white-piece {
         color:red;
-        font-style: italic;
     }
 </style>

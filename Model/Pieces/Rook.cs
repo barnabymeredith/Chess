@@ -38,13 +38,13 @@ namespace Model.Pieces
 
             if (rowDifference == 0)
             {
-                for (var i = move.StartPosition.Column + 1; i < move.DestinationPosition.Column; i+=colIterator)
+                for (var i = move.StartPosition.Column + colIterator; i != move.DestinationPosition.Column; i+=colIterator)
                 {
                     squaresToTraverse.Add(new Position() { Column = i, Row = move.StartPosition.Row });
                 }
                 return squaresToTraverse;
             }
-            for (var i = move.StartPosition.Row + 1; i < move.DestinationPosition.Row; i += rowIterator)
+            for (var i = move.StartPosition.Row + rowIterator; i != move.DestinationPosition.Row; i += rowIterator)
             {
                 squaresToTraverse.Add(new Position() { Column = move.StartPosition.Column, Row = i });
             }

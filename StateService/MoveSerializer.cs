@@ -82,6 +82,8 @@ namespace StateService
                     return PieceType.Queen;
                 case 'R':
                     return PieceType.Rook;
+                default:
+                    return PieceType.Pawn;
             }
 
             throw new ArgumentException();
