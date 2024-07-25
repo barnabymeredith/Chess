@@ -62,6 +62,8 @@ namespace StateService
 
             foreach (var piece in CurrentGame.Where(p => p.Colour != ColourToMove))
             {
+                var tempgame = CurrentGame;
+                var tempcoltomove = ColourToMove;
                 var tempMove = new Move()
                 {
                     DestinationPosition = CurrentGame.Where(p => p.Colour == ColourToMove && p.GetType().Name == "King").FirstOrDefault().Position,
@@ -72,7 +74,10 @@ namespace StateService
 
                 if (CanMoveInGameContext(tempMove))
                 {
-                    CurrentGame.Add(pieceToRemove);
+                    if (pieceToRemove != null)
+                    {
+                        CurrentGame.Add(pieceToRemove);
+                    }
                     PieceToMove.Position = tempSaveOldPosition;
                     return null;
                 }
@@ -107,10 +112,12 @@ namespace StateService
 
             if (colourToMoveTemp == Colour.White)
             {
+                occupiedSquaresThisPlayer = CurrentGame.Where(p => p.Colour == Colour.White).Select(p => p.Position).ToList();
                 occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.Black).Select(p => p.Position).ToList();
             }
             else
             {
+                occupiedSquaresThisPlayer = CurrentGame.Where(p => p.Colour == Colour.Black).Select(p => p.Position).ToList();
                 occupiedSquaresOtherPlayer = CurrentGame.Where(p => p.Colour == Colour.White).Select(p => p.Position).ToList();
             }
 
