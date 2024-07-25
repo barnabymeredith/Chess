@@ -39,6 +39,7 @@ namespace StateService
 
             if (move.DestinationPosition == null)
             {
+                PieceToMove = null;
                 return null;
             }
 
@@ -79,6 +80,7 @@ namespace StateService
                         CurrentGame.Add(pieceToRemove);
                     }
                     PieceToMove.Position = tempSaveOldPosition;
+                    PieceToMove = null;
                     return null;
                 }
             }

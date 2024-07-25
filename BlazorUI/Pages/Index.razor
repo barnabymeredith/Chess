@@ -57,6 +57,7 @@ else
 
 <input type="text" @bind="moveInput" />
 <button class="btn btn-primary" @onclick="Move">Click me</button>
+<p>If move not allowed, remember x for capture</p>
 }
 
 @code {
@@ -66,11 +67,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         pieces = Machine.StartMatch("classic");
-        Machine.Move("e4");
-        Machine.Move("e5");
-        Machine.Move("Qh5");
-        Machine.Move("a6");
-        Machine.Move("Qxe5");
     }
     private void Move()
     {
