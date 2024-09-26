@@ -16,6 +16,8 @@ namespace StateService
         private static Colour ColourToMove = Colour.White;
         private static bool IsWhiteInCheck = false;
         private static bool IsBlackInCheck = false;
+        private static bool IsWhiteInCheckMate = false;
+        private static bool IsBlackInCheckMate = false;
         private static Move? LastMove = null;
 
         public static List<Piece>? CurrentGame { get => currentGame; set => currentGame = value; }
@@ -36,6 +38,92 @@ namespace StateService
         public static List<Piece> Move(string moveChessNotation)
         {
             var move = MoveSerializer.Serialize(moveChessNotation);
+
+            if (move.IsCastlingKingSide)
+            {
+                var king = CurrentGame.Where(p => p.GetType().Name == "King" && p.Colour == ColourToMove).FirstOrDefault();
+                var rook = CurrentGame.Where(p => p.PositionIs(king.Position.Row, king.Position.Column + 3)).FirstOrDefault();
+
+                if (rook != null && !king.HasMoved && !rook.HasMoved)
+                {
+                    var newRookPosition = new Position()
+                    {
+                        Column = king.Position.Column + 1,
+                        Row = king.Position.Row,
+                    };
+
+                    var tempRookMove = new Move()
+                    {
+                        DestinationPosition = newRookPosition,
+                        StartPosition = rook.Position,
+                        PieceTypeToMove = MoveSerializer.GeneratePiece(rook.GetType().Name[0]),
+                    };
+
+                    if (CanMoveInGameContext(tempRookMove) && !CanAnyPieceGoToAnyOfTheseSquares(rook.SquaresToTraverse(tempRookMove)))
+                    {
+                        rook.Position = newRookPosition;
+                        king.Position = new Position()
+                        {
+                            Column = king.Position.Column + 2,
+                            Row = king.Position.Row,
+                        };
+
+                        if (ColourToMove == Colour.White)
+                        {
+                            ColourToMove = Colour.Black;
+                        }
+                        else
+                        {
+                            ColourToMove = Colour.White;
+                        }
+
+                        return CurrentGame;
+                    }
+                }
+            }
+
+            if (move.IsCastlingQueenSide)
+            {
+                var king = CurrentGame.Where(p => p.GetType().Name == "King" && p.Colour == ColourToMove).FirstOrDefault();
+                var rook = CurrentGame.Where(p => p.PositionIs(king.Position.Row, king.Position.Column - 4)).FirstOrDefault();
+
+                if (rook != null && !king.HasMoved && !rook.HasMoved)
+                {
+                    var newRookPosition = new Position()
+                    {
+                        Column = king.Position.Column - 1,
+                        Row = king.Position.Row,
+                    };
+
+                    var tempRookMove = new Move()
+                    {
+                        DestinationPosition = newRookPosition,
+                        StartPosition = rook.Position,
+                        PieceTypeToMove = MoveSerializer.GeneratePiece(rook.GetType().Name[0]),
+                    };
+
+                    if (CanMoveInGameContext(tempRookMove) && !CanAnyPieceGoToAnyOfTheseSquares(rook.SquaresToTraverse(tempRookMove)))
+                    {
+                        rook.Position = newRookPosition;
+                        king.Position = new Position()
+                        {
+                            Column = king.Position.Column - 2,
+                            Row = king.Position.Row,
+                        };
+
+                        if (ColourToMove == Colour.White)
+                        {
+                            ColourToMove = Colour.Black;
+                        }
+                        else
+                        {
+                            ColourToMove = Colour.White;
+                        }
+
+                        return CurrentGame;
+                    }
+                }
+            }
 
             if (move.DestinationPosition == null)
             {
@@ -95,7 +183,23 @@ namespace StateService
             }
 
             LastMove = move;
+            PieceToMove.HasMoved = true;
             PieceToMove = null;
+
+            if (IsWhiteInCheckMate)
+            {
+                CurrentGame = new List<Piece>
+                {
+                    new Pawn(Colour.Black, new Position()),
+                };
+            }
+            else if (IsBlackInCheckMate)
+            {
+                CurrentGame = new List<Piece>
+                {
+                    new Pawn(Colour.White, new Position()),
+                };
+            }
             return CurrentGame;
         }
 
@@ -187,7 +291,73 @@ namespace StateService
 
             return true;
         }
-        
+
+        private static bool CanAnyPieceGoToAnyOfTheseSquares(List<Position> positions)
+        {
+            foreach (Position position in positions)
+            {
+                foreach (var piece in CurrentGame.Where(p => p.Colour != ColourToMove))
+                {
+                    var tempMove = new Move()
+                    {
+                        DestinationPosition = position,
+                        StartPosition = piece.Position,
+                        PieceTypeToMove = MoveSerializer.GeneratePiece(piece.GetType().Name[0]),
+                        IsCapture = true,
+                    };
+
+                    if (CanMoveInGameContext(tempMove))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static bool CanAPieceGoToAllOfTheseSquares(List<Position> positions)
+        {
+            foreach (Position position in positions)
+            {
+                foreach (var piece in CurrentGame.Where(p => p.Colour != ColourToMove))
+                {
+                    var tempMove = new Move()
+                    {
+                        DestinationPosition = position,
+                        StartPosition = piece.Position,
+                        PieceTypeToMove = MoveSerializer.GeneratePiece(piece.GetType().Name[0]),
+                        IsCapture = true,
+                    };
+
+                    if (CanMoveInGameContext(tempMove))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static bool IsThisKingCheckMated(Colour colour)
+        {
+                foreach (var position in CurrentGame.Where(p => p.Colour != ColourToMove))
+                {
+                    var tempMove = new Move()
+                    {
+                        DestinationPosition = position,
+                        StartPosition = piece.Position,
+                        PieceTypeToMove = MoveSerializer.GeneratePiece(piece.GetType().Name[0]),
+                        IsCapture = true,
+                    };
+
+                    if (CanMoveInGameContext(tempMove))
+                    {
+                        return true;
+                    }
+            }
+            return false;
+        }
+
         private static List<Piece> StartClassicMatch() 
         {
             var pieces = new List<Piece>();

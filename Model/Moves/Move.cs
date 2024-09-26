@@ -10,5 +10,7 @@ namespace Model.Moves
         public Position? DestinationPosition;
         public Position? StartPosition;
         public bool IsCapture = false;
+        public bool IsCastlingKingSide = false;
+        public bool IsCastlingQueenSide = false;
     }
 }

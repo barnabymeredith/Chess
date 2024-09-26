@@ -8,11 +8,15 @@ namespace Model.Pieces
         private Colour _colour;
         private bool _isAlive;
         private Position _position;
+        private bool _hasMoved = false;
 
         public Colour Colour { get => _colour; set => _colour = value; }
 
         public bool IsAlive { get => _isAlive; set => _isAlive = value; }
+
         public Position Position { get => _position; set => _position = value; }
+
+        public bool HasMoved { get => _hasMoved; set => _hasMoved = value; }
 
         protected Piece(Colour colour, Position position)
         {

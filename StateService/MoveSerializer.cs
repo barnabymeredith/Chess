@@ -13,6 +13,20 @@ namespace StateService
         {
             var move = new Move();
 
+            if (input[0] == '0')
+            {
+                if (input.Length == 5)
+                {
+                    move.IsCastlingQueenSide = true;
+                    return move;
+                }
+                else
+                {
+                    move.IsCastlingKingSide = true;
+                    return move;
+                }
+            }
+
             // pawn promotion
             if (PieceInitials.Contains(input.Last())) {
                 move.PieceTypeToPromoteTo = GeneratePiece(input.Last());
